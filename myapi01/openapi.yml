@@ -1,0 +1,187 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+servers:
+  - url: http://localhost:8000
+    description: Dev server
+  - url: http://localhost2:8000
+    description: Staging server
+paths:
+  /heroes/:
+    get:
+      operationId: listHeros
+      description: API endpoint to get all heroes
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - results
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Hero'
+          description: ''
+      tags:
+      - heroes
+    post:
+      operationId: createHero
+      description: API endpoint to get all heroes
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Hero'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+          description: ''
+      tags:
+      - heroes
+  /heroes/{id}/:
+    get:
+      operationId: retrieveHero
+      description: API endpoint to get all heroes
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this hero.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+          description: ''
+      tags:
+      - heroes
+    put:
+      operationId: updateHero
+      description: API endpoint to get all heroes
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this hero.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Hero'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+          description: ''
+      tags:
+      - heroes
+    patch:
+      operationId: partialUpdateHero
+      description: API endpoint to get all heroes
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this hero.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Hero'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Hero'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hero'
+          description: ''
+      tags:
+      - heroes
+    delete:
+      operationId: destroyHero
+      description: API endpoint to get all heroes
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this hero.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - heroes
+components:
+  schemas:
+    Hero:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 60
+        alias:
+          type: string
+          maxLength: 60
+      required:
+      - name
+      - alias
